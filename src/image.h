@@ -13,6 +13,7 @@ namespace agl {
  * 
  */
 struct Pixel {
+  
     unsigned char r;
     unsigned char g;
     unsigned char b;
@@ -23,7 +24,7 @@ struct Pixel {
  */
 class Image {
  public:
-  Image();
+  Image();//is this the constructor? do we put the general constructor like Image(float x)
   Image(int width, int height);
   Image(const Image& orig);
   Image& operator=(const Image& orig);
