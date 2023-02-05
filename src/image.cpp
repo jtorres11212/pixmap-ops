@@ -175,7 +175,6 @@ void Image::replace(const Image& image, int startx, int starty) {
          set((j*wt+i),next);
       }
    }
-
 }
 
 Image Image::swirl() const {
