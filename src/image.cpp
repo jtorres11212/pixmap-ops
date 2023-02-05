@@ -171,8 +171,8 @@ Image Image::subimage(int startx, int starty, int w, int h) const {
 void Image::replace(const Image& image, int startx, int starty) {
    for(int i=starty;i<starty+image.width();i++){
       for(int j=startx;j<startx+image.height();j++){
-         Pixel set=image.get((j-startx)*image.width()+(i-starty));
-         set((j*wt+i),set);
+         Pixel next=image.get((j-startx)*image.width()+(i-starty));
+         set((j*wt+i),next);
       }
    }
 
