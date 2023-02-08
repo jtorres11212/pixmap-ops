@@ -11,7 +11,9 @@ namespace agl {
 
 //cnstrctr
 Image::Image() {
-   wt,ht=0;
+   if(wt!=0 && ht!=0){
+      wt,ht=0;
+   }
 }
 //cnstrctr2
 Image::Image(int width, int height)  {
@@ -57,7 +59,7 @@ void Image::set(int width, int height, unsigned char* data) {
 
 bool Image::load(const std::string& filename, bool flip) {
    int x,y;
-   dad=(Pixel*)(stbi_load(filename.c_str(),&x,&y,&chan,3));
+   dad=(Pixel*)(stbi_load(filename.c_str(),&x,&y,&chan,4));
    if (dad!=NULL){
       wt=x;
       ht=y;
@@ -66,15 +68,15 @@ bool Image::load(const std::string& filename, bool flip) {
    return false;
 }
 
-
 bool Image::save(const std::string& filename, bool flip) const {  
    stbi_flip_vertically_on_write(flip);
-   int result=stbi_write_png(filename.c_str(),wt,ht,3,dad,sizeof(Pixel)*wt);
+   int result=stbi_write_png(filename.c_str(),wt,ht,4,dad,sizeof(Pixel)*wt);
    if(dad!= NULL){
-      Pixel*image=(Pixel*)(stbi_write_png(filename.c_str(),wt,ht,chan,dad,sizeof(struct Pixel)*wt));
+      Pixel* image=(Pixel*)(stbi_write_png(filename.c_str(),wt,ht,chan,dad,sizeof(struct Pixel)*wt));
       return false;
    }
    return true;
+   return result;
 }
 
 Pixel Image::get(const int row,const int col) const{
@@ -82,21 +84,18 @@ Pixel Image::get(const int row,const int col) const{
   mom=dad[row*wt+col];
   return mom;
 }
-
 void Image::set(int row, int col, const Pixel& color) {
- 
+
 }
 Pixel Image::get(int i) const
 {
    Pixel next=dad[i];
    return next;
 }
-
 void Image::set(int i, const Pixel& c)
 {
    dad[i]=c;
 }
-
 Image Image::resize(int w, int h) const {
    Image result(w, h);
    float ww,hh;
@@ -109,8 +108,8 @@ Image Image::resize(int w, int h) const {
          Pixel set=get(first);
          result.set((j*w),set);
       }
-   return result;
    }
+   return result;
 }
 Image Image::flipHorizontal() const {
    /**(unsigned char**)t;                 //wish this worked
@@ -127,20 +126,19 @@ Image Image::flipHorizontal() const {
                t[i][j]=dad[i];
             }
          }**/
-   int www,hhh,second;
+   int www;
    Image result(wt,ht);
    for(int i=0;i<wt;i++){
       for(int j=0;j<ht;j++){
          www=wt-(j+1);
          Pixel set=get(j*wt+i);
-         result.set((i*wt+hhh),set);
+         result.set((i*wt+www),set);
       }
    }
    return result;
 }
-
 Image Image::flipVertical() const {
-int wwww,hhhh,third;
+int hhhh;
    Image result(wt,ht);
    for(int i=0;i<wt;i++){
       for(int j=0;j<ht;j++){
@@ -150,13 +148,11 @@ int wwww,hhhh,third;
       }
    }   return result;
 }
-
 Image Image::rotate90() const {
    Image result(0, 0);
   
    return result;
 }
-
 Image Image::subimage(int startx, int starty, int w, int h) const {
    Image subImage(w, h);
    for(int i=starty;i<starty+h;i++){
@@ -167,7 +163,6 @@ Image Image::subimage(int startx, int starty, int w, int h) const {
    }
     return subImage;
 }
-
 void Image::replace(const Image& image, int startx, int starty) {
    for(int i=starty;i<starty+image.width();i++){
       for(int j=startx;j<startx+image.height();j++){
@@ -176,48 +171,40 @@ void Image::replace(const Image& image, int startx, int starty) {
       }
    }
 }
-
 Image Image::swirl() const {
    Image result(0, 0);
    return result;
 }
-
 Image Image::add(const Image& other) const {
    Image result(0, 0);
   
    return result;
 }
-
 Image Image::subtract(const Image& other) const {
    Image result(0, 0);
    
    return result;
 }
-
 Image Image::multiply(const Image& other) const {
    Image result(0, 0);
    
    return result;
 }
-
 Image Image::difference(const Image& other) const {
    Image result(0, 0);
   
    return result;
 }
-
 Image Image::lightest(const Image& other) const {
    Image result(0, 0);
   
    return result;
 }
-
 Image Image::darkest(const Image& other) const {
    Image result(0, 0);
   
    return result;
 }
-
 Image Image::gammaCorrect(float gamma) const {
    Image result(wt, ht);
    for(int i=0;i<wt;i++){
@@ -252,13 +239,11 @@ Image Image::alphaBlend(const Image& other, float alpha) const {
 
    return result;
 }
-
 Image Image::invert() const {
    Image image(0, 0);
    
    return image;
 }
-
 Image Image::grayscale() const {// divide all rgb by 3
    int av;
    Image result(wt,ht);
@@ -276,19 +261,16 @@ Image Image::grayscale() const {// divide all rgb by 3
    
    return result;
 }
-
 Image Image::colorJitter(int size) const {
    Image image(0, 0);
   
    return image;
 }
-
 Image Image::bitmap(int size) const {
    Image image(0, 0);
    
    return image;
 }
-
 void Image::fill(const Pixel& c) {
 
   }

@@ -125,7 +125,6 @@ class Image {
   // Replace the portion starting at (row, col) with the given image
   // Clamps the image if it doesn't fit on this image
   void replace(const Image& image, int x, int y);
-
   // swirl the colors 
   Image swirl() const;
 
@@ -180,7 +179,7 @@ class Image {
   // Convert the image to grayscale
   Image grayscale() const;
 
-  // return a bitmap version of this image
+  // retursn a bitmap version of this image
   Image colorJitter(int size) const;
 
   // return a bitmap version of this image
@@ -191,6 +190,12 @@ class Image {
 
  private:
    // todo
+   Pixel** t=NULL;
+   Pixel* dad=NULL;
+   Pixel* image;
+   int wt=0;
+   int ht=0;
+   int chan=3;
 };
 }  // namespace agl
 #endif  // AGL_IMAGE_H_
