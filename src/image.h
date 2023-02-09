@@ -192,7 +192,7 @@ class Image {
    // todo
    Pixel** t=NULL;
    Pixel* dad=NULL;
-   Pixel* image;
+   Pixel* image=NULL;
    int wt=0;
    int ht=0;
    int chan=3;

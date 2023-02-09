@@ -11,9 +11,6 @@ namespace agl {
 
 //cnstrctr
 Image::Image() {
-   if(wt!=0 && ht!=0){
-      wt,ht=0;
-   }
 }
 //cnstrctr2
 Image::Image(int width, int height)  {
@@ -59,7 +56,7 @@ void Image::set(int width, int height, unsigned char* data) {
 
 bool Image::load(const std::string& filename, bool flip) {
    int x,y;
-   dad=(Pixel*)(stbi_load(filename.c_str(),&x,&y,&chan,4));
+   dad=(Pixel*)(stbi_load(filename.c_str(),&x,&y,&chan,3));
    if (dad!=NULL){
       wt=x;
       ht=y;
@@ -70,13 +67,11 @@ bool Image::load(const std::string& filename, bool flip) {
 
 bool Image::save(const std::string& filename, bool flip) const {  
    stbi_flip_vertically_on_write(flip);
-   int result=stbi_write_png(filename.c_str(),wt,ht,4,dad,sizeof(Pixel)*wt);
    if(dad!= NULL){
-      Pixel* image=(Pixel*)(stbi_write_png(filename.c_str(),wt,ht,chan,dad,sizeof(struct Pixel)*wt));
+      Pixel*img=(Pixel*)(stbi_write_png(filename.c_str(),wt,ht,chan,dad,sizeof(struct Pixel)*wt));
       return false;
    }
    return true;
-   return result;
 }
 
 Pixel Image::get(const int row,const int col) const{
