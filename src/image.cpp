@@ -133,7 +133,7 @@ Image Image::flipHorizontal() const {
    return result;
 }
 Image Image::flipVertical() const {
-int hhhh;
+   int hhhh;
    Image result(wt,ht);
    for(int i=0;i<wt;i++){
       for(int j=0;j<ht;j++){
@@ -142,11 +142,6 @@ int hhhh;
          result.set((i*wt+hhhh),set);
       }
    }   return result;
-}
-Image Image::rotate90() const {
-   Image result(0, 0);
-  
-   return result;
 }
 Image Image::subimage(int startx, int starty, int w, int h) const {
    Image subImage(w, h);
@@ -181,24 +176,69 @@ Image Image::subtract(const Image& other) const {
    return result;
 }
 Image Image::multiply(const Image& other) const {
-   Image result(0, 0);
-   
+   Image result(wt,ht);
+   for (int i = 0; i < ht; i++){
+      for (int j = 0; j < wt; j++){
+         Pixel tmp = get(i,j);
+         Pixel other_pixels = other.get(i, j);
+         tmp.r=tmp.r * other_pixels.r;
+         tmp.g=tmp.g * other_pixels.g;
+         tmp.b=tmp.b * other_pixels.b;
+         result.set(i,j,tmp);;
+      }
+   }
    return result;
 }
 Image Image::difference(const Image& other) const {
-   Image result(0, 0);
-  
+   Image result(wt,ht);
+      for (int i=0;i<ht;i++){
+         for (int j=0;j<wt;j++){
+            Pixel tmp=get(i,j);
+            Pixel nottmp=other.get(i,j);
+            tmp.r=tmp.r-nottmp.r;
+            tmp.g=tmp.g-nottmp.g;
+            tmp.b=tmp.b-nottmp.b;
+            result.set(i,j,tmp);;
+         }
+      }
    return result;
 }
 Image Image::lightest(const Image& other) const {
-   Image result(0, 0);
-  
-   return result;
+   Image result(wt, ht);
+   for (int i=0;i<ht;i++){
+      for (int j=0;j<wt;j++){
+         Pixel tmp=get(i,j);
+         Pixel otherother=other.get(i,j);
+         int t1=tmp.r+tmp.g+tmp.b;
+         int t2=otherother.r+otherother.g+otherother.b;
+         if (t1<t2){
+            tmp.r=otherother.r;
+            tmp.g=otherother.g;
+            tmp.b=otherother.b;
+         }
+      result.set(i,j,tmp);;
+      }
+   }
+return result;
 }
+
 Image Image::darkest(const Image& other) const {
-   Image result(0, 0);
-  
-   return result;
+   Image result(wt, ht);
+   for (int i=0;i<ht;i++){
+      for (int j=0;j<wt;j++){
+         Pixel tmp=get(i,j);
+         Pixel otherother=other.get(i,j);
+         int t1=tmp.r+tmp.g+tmp.b;
+         int t2=otherother.r+otherother.g+otherother.b;
+         if (t1>t2){
+            tmp.r=otherother.r;
+            tmp.g=otherother.g;
+            tmp.b=otherother.b;
+         }
+      result.set(i,j,tmp);;
+      }
+   }
+return result;
 }
 Image Image::gammaCorrect(float gamma) const {
    Image result(wt, ht);
@@ -229,15 +269,110 @@ Image Image::alphaBlend(const Image& other, float alpha) const {
          set.b=(img2.b*(1-alpha))+(img1.b*alpha);
          result.set((j*wt+i),set);
       }
-
    }
-
    return result;
 }
 Image Image::invert() const {
    Image image(0, 0);
    
    return image;
+}
+Image Image::crank90()const{
+   Image result(wt,ht);
+   for(int i=0;i<wt;i++){
+      for(int j=0;j<ht;j++){
+         Pixel getter=get(wt,ht);
+         Pixel flip;
+         flip.r=255-getter.r;
+         flip.g=255-getter.g;
+         flip.b=255-getter.b;
+         result.set((j*wt+i),flip);
+      }
+   }
+   return result;
+}
+Image Image::glow()const{//doesent work :(
+   Image result(wt,ht);
+   for(int i=1;i<wt-1;i++){
+      for(int j=1;j<ht-1;j++){
+         Pixel getter=get(wt,ht);
+         int avr=0;
+         int avb= 0;
+         int avg=0;
+         for(int w=i-1;w<=i+1;w++){
+            for(int h=j-1;h<=j+1;h++){
+               Pixel next=get(h,w);
+               while(getter.r>150&&getter.b>150&&getter.g>150){
+                  avr+=next.r;
+                  avg+=next.g;
+                  avb+=next.b;
+               }
+            }
+         }
+         getter.r=avr/9;
+         getter.g=(avg/9);
+         getter.b=avb/9;
+         result.set((j*wt+i),getter);
+      }
+   }
+   return result;
+}
+Image Image::brr()const{
+   Image result(wt,ht);
+   for(int i=1;i<wt-1;i++){
+      for(int j=1;j<ht-1;j++){
+         Pixel getter=get(wt,ht);
+         int avr=0;
+         int avb=0;
+         int avg=0;
+         for(int w=i-1;w<=i+1;w++){
+            for(int h=j-1;h<=j+1;h++){
+               Pixel next=get(h,w);
+               avr+=next.r;
+               avg+=next.g;
+               avb+=next.b;
+            }
+         }
+         getter.r=avr/9;
+         getter.g=(avg/9);
+         getter.b=avb/9;
+         result.set((j*wt+i),getter);
+      }
+   }
+   return result;
+}
+Image Image::glitch()const{
+   Image result(wt,ht);
+   for(int i=1;i<wt-1;i++){
+      for(int j=1;j<ht-1;j++){
+         Pixel getter=get(wt,ht);
+         int avr,avb,avg=0;
+         for(int w=i-1;w<=i+2;w++){
+            for(int h=j-1;h<=j+2;h++){
+               Pixel next=get(h,w);
+               avr+=next.r;
+               avg+=next.g;
+               avb+=next.b;
+            }
+         }
+         getter.r=avr/9;
+         getter.g=avg/9;
+         getter.b=avb/9;
+         result.set((j*wt+i),getter);
+      }
+   }
+   return result;
+}
+Image Image::deepfry(const Image& other)const{//doesent work either :(
+   Image result(wt,ht);
+   for(int i=0;i<wt;i++){
+      for(int j=0;j<ht;j++){
+      Pixel fry=get(j*wt+i);
+      fry.r=fry.r+((255-fry.g)/2);
+      result.set((j*wt+i),fry);
+      }
+   }
+   return result;
 }
 Image Image::grayscale() const {// divide all rgb by 3
    int av;
@@ -252,8 +387,6 @@ Image Image::grayscale() const {// divide all rgb by 3
          result.set((j*wt+i),set);
       }
    }
-
-   
    return result;
 }
 Image Image::colorJitter(int size) const {

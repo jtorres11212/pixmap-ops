@@ -46,6 +46,31 @@ pixmap-ops/build $ ../bin/pixmap_art
 ## Image operators
 
 TODO: Document the features of your PPM image class here. Include example images.
+Darkest
+
+
+Lightest
+
+
+Deepfry
+
+
+Crank90
+
+
+Glitch
+
+
+Multiply
+
+
+Difference
+
+
+Flip Vertical
+
+
+
 
 ## Results
 

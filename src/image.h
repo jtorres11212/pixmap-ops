@@ -13,7 +13,6 @@ namespace agl {
  * 
  */
 struct Pixel {
-  
     unsigned char r;
     unsigned char g;
     unsigned char b;
@@ -116,8 +115,6 @@ class Image {
   // flip around the vertical midline
   Image flipVertical() const;
 
-  // rotate the Image 90 degrees
-  Image rotate90() const;
 
   // Return a sub-Image having the given top,left coordinate and (width, height)
   Image subimage(int x, int y, int w, int h) const;
@@ -185,6 +182,16 @@ class Image {
   // return a bitmap version of this image
   Image bitmap(int size) const;
 
+  Image brr() const;
+
+  Image glitch()const;
+
+  Image glow()const;
+
+  Image crank90()const;
+
+  Image deepfry(const Image& other)const;
+  
   // Fill this image with a color
   void fill(const Pixel& c);
 
@@ -192,7 +199,7 @@ class Image {
    // todo
    Pixel** t=NULL;
    Pixel* dad=NULL;
-   Pixel* image=NULL;
+   Pixel* img=NULL;
    int wt=0;
    int ht=0;
    int chan=3;

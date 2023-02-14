@@ -47,32 +47,51 @@ int main(int argc, char** argv)
       std::cout << "ERROR: Cannot load image! Exiting...\n";
       exit(0);
    }
-
    // should print 400 400
    cout << "loaded earth: " << image.width() << " " << image.height() << endl;
 
    // resize
    Image resize = image.resize(200,300);
-   resize.save("earth-200-300.png");
+   resize.save("zoro-200-300.png");
 
    // grayscale
    Image grayscale = image.grayscale(); 
-   grayscale.save("earth-grayscale.png");
+   grayscale.save("zoro-grayscale.png");
+   //blurrs the image I hope
+   Image brr=image.brr();
+   brr.save("zoro-brr.png");
 
+   Image glitch=image.glitch();
+   glitch.save("zoro-glitch.png");
+
+   Image deepfry=image.deepfry(brr);
+   deepfry.save("zoro-deepfry.png");
+
+   Image crank90=image.crank90();
+   crank90.save("zoro-crank90.png");
+
+   Image lightest=image.lightest(deepfry);
+   lightest.save("zoro-lightest.png");
+
+   Image darkest=image.darkest(deepfry);
+   darkest.save("zoro-darkest.png");
+
+   Image glow=image.glow();
+   glow.save("zoro-glow.png");
    // flip horizontal
    Image flip = image.flipHorizontal(); 
-   flip.save("earth-flip.png"); 
+   flip.save("zoro-flip.png"); 
 
    // sub image
    Image sub = image.subimage(200, 200, 100, 100); 
-   sub.save("earth-subimage.png"); 
+   sub.save("zoro-subimage.png"); 
 
    // gamma correction
    Image gamma = image.gammaCorrect(0.6f); 
-   gamma.save("earth-gamma-0.6.png"); 
+   gamma.save("zoro-gamma-0.6.png"); 
 
    gamma = image.gammaCorrect(2.2f);
-   gamma.save("earth-gamma-2.2.png"); 
+   gamma.save("zoro-gamma-2.2.png"); 
 
    // alpha blend
    Image soup;
@@ -84,6 +103,6 @@ int main(int argc, char** argv)
    background.save("background-test.png");
    Image blend = background.alphaBlend(soup, 0.5f);
    image.replace(blend, x, y);
-   image.save("earth-blend-0.5.png");
+   image.save("zoro-blend-0.5.png");
 }
 
