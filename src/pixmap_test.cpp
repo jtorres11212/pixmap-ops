@@ -70,16 +70,22 @@ int main(int argc, char** argv)
    Image crank90=image.crank90();
    crank90.save("zoro-crank90.png");
 
-   Image lightest=image.lightest(deepfry);
+   Image lightest=image.lightest(crank90);
    lightest.save("zoro-lightest.png");
 
-   Image darkest=image.darkest(deepfry);
+   Image darkest=image.darkest(crank90);
    darkest.save("zoro-darkest.png");
+
+   Image difference=image.difference(crank90);
+   difference.save("zoro-difference.png");
+
+   Image multiply=image.multiply(crank90);
+   multiply.save("zoro-multiply.png");
 
    Image glow=image.glow();
    glow.save("zoro-glow.png");
    // flip horizontal
-   Image flip = image.flipHorizontal(); 
+   Image flip = image.flipVertical(); 
    flip.save("zoro-flip.png"); 
 
    // sub image
